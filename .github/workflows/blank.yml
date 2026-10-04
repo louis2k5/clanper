@@ -22,10 +22,15 @@ jobs:
         cache: maven
 
     - name: Projekt mit Maven bauen
-      run: mvn clean package --file ClanSystem/pom.xml
+      run: |
+        if [ -f "ClanSystem/pom.xml" ]; then
+          mvn clean package --file ClanSystem/pom.xml
+        else
+          mvn clean package
+        fi
 
     - name: JAR-Datei als Artifact hochladen
       uses: actions/upload-artifact@v4
       with:
         name: ClanSystem-Plugin
-        path: ClanSystem/target/*.jar
+        path: "**/target/*.jar"
